@@ -1,0 +1,13 @@
+{
+    "TAG": ".(_|[a-z]|[0-9])*",
+    "NOOPS": "sub|xor|kcl|nop",
+    "JUMP": "jmp|jnz|jle|jge",
+    "LOAD": "ldi",
+    "MOVE": "mov",
+    "REGISTER": "h0|h1|h2|h3|rm|rr|rj|ro|s2|s1p|rx|s1",
+    "IMMEDIATE": "([0-9]+)|(0x([0-9]|a|b|c|d|e|f)+)|(0b(0|1)+)",
+    "COMMENT": ";([0-9]|[a-z]|;|\\ )*",
+    "SPACE": "\\ ",
+    "NEWLINE": "\n",
+    "COLON": ":"
+}

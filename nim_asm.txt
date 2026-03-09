@@ -1,0 +1,212 @@
+.init:           
+    ldi h0 7               
+    ldi h1 7               
+    ldi h2 7               
+    ldi h3 7               
+    ldi ro 0               
+.loop:           
+    mov rr s2             
+                jnz .check_x             
+.for1_body0:     
+ldi rr 1               
+                mov rm h0              
+                sub                     
+                jnz .for1_body1        
+                ldi h0 0               
+                jmp .check_end         
+.for1_body1:    
+ ldi rr 1               
+                mov rm h1              
+                sub                     
+                jnz .for1_body2        
+                ldi h1 0               
+                jmp .check_end         
+.for1_body2:     
+ldi rr 1               
+                mov rm h2              
+                sub                     
+                jnz .for1_body3        
+                ldi h2 0               
+                jmp .check_end         
+.for1_body3:     
+ldi h3 0               
+                jmp .check_end         
+.check_x:        
+mov rr rx              
+                jnz .find_heap         
+.for2_body0:     
+ldi rr 1               
+                mov rm h0              
+                sub                     
+                jle .for2_body1        
+                mov h0 rr              
+                jmp .check_end         
+.for2_body1:     
+ldi rr 1               
+                mov rm h1              
+                sub                     
+                jle .for2_body2        
+                mov h1 rr              
+                jmp .check_end         
+.for2_body2:     
+ldi rr 1               
+                mov rm h2              
+                sub                     
+                jle .for2_body3        
+                mov h2 rr              
+                jmp .check_end         
+.for2_body3:     
+ldi rr 1               
+                mov rm h3              
+                sub                     
+                mov h3 rr              
+                jmp .check_end         
+.find_heap:      
+mov rm rx              
+                mov rr h0              
+                xor                     
+                mov rm rr              
+                mov rr h0              
+                sub                     
+                jge .for3_body1        
+                mov rj rm              
+                mov rm s2              
+                ldi rr 1               
+                sub                     
+                mov rm rj              
+                jnz .take_heap0        
+                ldi rr 1               
+                sub                     
+                jnz .check_even0       
+                ldi rr 1               
+                mov rj rm              
+                mov rm s1p              
+                sub                     
+                mov rm rj              
+                jnz .take_heap0        
+                ldi rm 0               
+                jmp .take_heap0        
+.check_even0:    
+mov rr rm              
+                jnz .take_heap0        
+                mov rr s1p              
+                jnz .take_heap0        
+                ldi rm 1               
+.take_heap0:     
+mov h0 rm              
+                jmp .check_end         
+.for3_body1:     
+mov rm rx              
+                mov rr h1              
+                xor                     
+                mov rm rr              
+                mov rr h1              
+                sub                     
+                jge .for3_body2        
+                mov rj rm              
+                mov rm s2              
+                ldi rr 1               
+                sub                     
+                mov rm rj              
+                jnz .take_heap1        
+                ldi rr 1               
+                sub                     
+                jnz .check_even1       
+                ldi rr 1               
+                mov rj rm              
+                mov rm s1p              
+                sub                     
+                mov rm rj              
+                jnz .take_heap1        
+                ldi rm 0               
+                jmp .take_heap1        
+.check_even1:    
+mov rr rm              
+                jnz .take_heap1        
+                mov rr s1p              
+                jnz .take_heap1        
+                ldi rm 1               
+.take_heap1:     
+mov h1 rm              
+                jmp .check_end         
+.for3_body2:     
+mov rm rx              
+                mov rr h2              
+                xor                     
+                mov rm rr              
+                mov rr h2              
+                sub                     
+                jge .for3_body3        
+                mov rj rm              
+                mov rm s2              
+                ldi rr 1               
+                sub                     
+                mov rm rj              
+                jnz .take_heap2        
+                ldi rr 1               
+                sub                     
+                jnz .check_even2       
+                ldi rr 1               
+                mov rj rm              
+                mov rm s1p              
+                sub                     
+                mov rm rj              
+                jnz .take_heap2        
+                ldi rm 0               
+                jmp .take_heap2        
+.check_even2:    
+mov rr rm              
+                jnz .take_heap2        
+                mov rr s1p              
+                jnz .take_heap2        
+                ldi rm 1               
+.take_heap2:     
+mov h2 rm              
+                jmp .check_end         
+.for3_body3:     
+mov rm rx              
+                mov rr h3              
+                xor                     
+                mov rj rr              
+                mov rm s2              
+                ldi rr 1               
+                sub                     
+                mov rm rj              
+                jnz .take_heap3        
+                ldi rr 1               
+                sub                     
+                jnz .check_even3       
+                ldi rr 1               
+                mov rj rm              
+                mov rm s1p              
+                sub                     
+                mov rm rj              
+                jnz .take_heap3        
+                ldi rm 0               
+                jmp .take_heap3        
+.check_even3:    
+mov rr rm              
+                jnz .take_heap3        
+                mov rr s1p              
+                jnz .take_heap3        
+                ldi rm 1               
+.take_heap3:     
+mov h3 rm              
+.check_end:      
+mov rr s2              
+                jnz .player            
+                mov rr s1              
+                jnz .player            
+                ldi ro 1               
+                jmp .end       
+.player:         
+nop
+                kcl                     
+                mov rr s2              
+                jnz .loop              
+                mov rr s1              
+                jnz .loop              
+                ldi ro 2               
+.end:            
+kcl                     
+                jmp .init              
